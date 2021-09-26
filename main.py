@@ -5,7 +5,9 @@ import subprocess
 from natsort import natsorted
 import sys
 sys.path.append('./face_3ddfa_v2')
+device = "cuda"
 
+import face_alignment
 from dlib_python.get_landmarks import get_landmarks as get_landmarks_dlib
 from face_alignment_python.get_landmarks import get_landmarks as get_landmarks_face_alignment
 from face_3ddfa_v2.get_landmarks import get_landmarks as get_landmarks_3ddfa_v2
@@ -50,6 +52,8 @@ if __name__ == '__main__':
     # xseg, xseg_res = initialize_model_xseg()
     save_videos = '../results'
     os.makedirs(save_videos, exist_ok=True)
+    detector = face_alignment.FaceAlignment(face_alignment.LandmarksType._2D,
+                                                flip_input=False, device=device)
     for dir_ in tqdm(dirs):
         try:
             frame_list = glob.glob(os.path.join(dir_, '*.jpg')) + glob.glob(os.path.join(dir_, '*.png'))
@@ -61,7 +65,7 @@ if __name__ == '__main__':
             # print(frame_list[0].shape)
 
             landmarks_list_1 = get_landmarks_dlib(frame_list)#, xseg, xseg_res)
-            landmarks_list_2 = get_landmarks_face_alignment(frame_list)#, xseg, xseg_res)
+            landmarks_list_2 = get_landmarks_face_alignment(frame_list, detector=detector)#, xseg, xseg_res)
             landmarks_list_3 = get_landmarks_3ddfa_v2(frame_list)#, xseg, xseg_res)
 
             save_video = os.path.join(save_videos, os.path.basename(dir_)+'.mp4')

@@ -7,13 +7,13 @@ device = "cuda"
 import torch
 
 
-def get_landmarks(images):
+def get_landmarks(images, detector=None):
     images = np.stack([cv2.cvtColor(img, cv2.COLOR_BGR2RGB) for img in images])
     images = images.transpose(0, 3, 1, 2)
-    face_det_batch_size = 4
-
-    detector = face_alignment.FaceAlignment(face_alignment.LandmarksType._2D,
-                                            flip_input=False, device=device)
+    face_det_batch_size = 16
+    if detector is None:
+        detector = face_alignment.FaceAlignment(face_alignment.LandmarksType._2D,
+                                                flip_input=False, device=device)
 
     batch_size = face_det_batch_size
 
@@ -35,8 +35,8 @@ def get_landmarks(images):
     #     boxes = get_smoothened_boxes(boxes, T=5)
     # results = [[image[y1: y2, x1:x2], (y1, y2, x1, x2)]
     #            for image, (x1, y1, x2, y2) in zip(images, boxes)]
-
-    del detector
+    if detector is not None:
+        del detector
     return np.array(predictions)
     #return boxes
 
