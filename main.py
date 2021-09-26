@@ -76,7 +76,7 @@ if __name__ == '__main__':
                 img_1 = draw_mask(img_ori, landmarks_list_1[i])
                 img_2 = draw_mask(img_ori, landmarks_list_2[i])
                 img_3 = draw_mask(img_ori, landmarks_list_3[i])
-                result = cv2.hconcat([img_ori, img_1, img_1, img_1])
+                result = cv2.hconcat([img_ori, img_1, img_2, img_3])
                 results.append(result)
                 save_path = os.path.join(save_dir, str(i+1)+'.png')
                 cv2.imwrite(save_path, result)
