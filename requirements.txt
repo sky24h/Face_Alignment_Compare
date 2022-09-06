@@ -1,0 +1,7 @@
+tqdm
+opencv-python
+natsort
+face_alignment
+dlib
+imutils
+pyyaml

@@ -45,12 +45,12 @@ def draw_mask(img_ori, image_landmarks, color=(0, 0, 0), thickness=1):
 
 if __name__ == '__main__':
 
-    data_root = '../../datasets/joint_datasets_0811'
+    data_root = '/home/huang/datasets/faces/test_set'
     dirs = glob.glob(os.path.join(data_root,'*'))
     dirs.sort()
     dataset_name = os.path.basename(data_root)
     # xseg, xseg_res = initialize_model_xseg()
-    save_videos = '../results'
+    save_videos = '/home/huang/datasets/faces/test_set_results'
     os.makedirs(save_videos, exist_ok=True)
     detector = face_alignment.FaceAlignment(face_alignment.LandmarksType._2D,
                                                 flip_input=False, device=device)
